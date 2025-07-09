@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>BloodLife - Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+	<div class="dashboard" id="dashboard">
+		<!-- Sidebar -->
+		<aside class="sidebar">
+			<div class="logo-container">
+				<div class="logo">
+					<i class="fas fa-heartbeat"></i>
+					<h1>BloodLife</h1>
+				</div>
+			</div>
+			<ul class="nav-links">
+				<li><a href="#" class="active"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+				<li><a href="#"><i class="fas fa-tint"></i><span>Inventory</span></a></li>
+				<li><a href="#"><i class="fas fa-hand-holding-heart"></i><span>Donations</span></a></li>
+				<li><a href="#"><i class="fas fa-users"></i><span>Donors</span></a></li>
+				<li><a href="#"><i class="fas fa-hospital-user"></i><span>Recipients</span></a></li>
+				<li><a href="#"><i class="fas fa-file-medical"></i><span>Requests</span></a></li>
+				<li><a href="#"><i class="fas fa-chart-line"></i><span>Reports</span></a></li>
+				<li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+			</ul>
+		</aside>
+
+		<!-- Main Content -->
+		<main class="main-content">
+			<!-- Header -->
+			<div class="header">
+				<div class="header-title">
+					<h1>Blood Management Dashboard</h1>
+					<p>Welcome back! Here's what's happening today.</p>
+				</div>
+
+				<div class="header-actions">
+					<div class="search-bar">
+						<i class="fas fa-search"></i>
+						<input type="text" placeholder="Search...">
+					</div>
+
+					<div class="user-actions">
+					    <th:block th:if="${user != null}">
+					        <div class="dropdown">
+					            <button class="profile-btn">
+					                <i class="fas fa-user-circle"></i>
+					                <span th:text="${user != null} ? ${user.username} : 'Guest'">Welcome</span>
+					            </button>
+					            <div class="dropdown-content">
+					                <a href="/profile">View Profile</a>
+					                <a href="/logout">Logout</a>
+					            </div>
+					        </div>
+					    </th:block>
+					    <th:block th:unless="${user != null}">
+					        <button class="logout-btn" onclick="window.location.href='/login'">
+					            <i class="fas fa-sign-in-alt"></i> Login
+					        </button>
+					    </th:block>
+					</div>
+				</div>
+			</div>
+			<!-- Cards -->
+			<div class="card-grid">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Total Blood Units</div>
+						<div class="card-icon" style="background: rgba(229, 57, 53, 0.1); color: var(--primary);">
+							<i class="fas fa-tint"></i>
+						</div>
+					</div>
+					<div class="card-value">1,248</div>
+					<div class="card-footer positive">
+						<i class="fas fa-arrow-up"></i> 12% from last month
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Critical Levels</div>
+						<div class="card-icon" style="background: rgba(255, 193, 7, 0.1); color: var(--warning);">
+							<i class="fas fa-exclamation-triangle"></i>
+						</div>
+					</div>
+					<div class="card-value">4</div>
+					<div class="card-footer negative">
+						<i class="fas fa-arrow-up"></i> 2 more than last week
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Pending Requests</div>
+						<div class="card-icon" style="background: rgba(40, 167, 69, 0.1); color: var(--success);">
+							<i class="fas fa-file-medical"></i>
+						</div>
+					</div>
+					<div class="card-value">18</div>
+					<div class="card-footer">
+						<i class="fas fa-arrow-down"></i> 3 resolved today
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Upcoming Donations</div>
+						<div class="card-icon" style="background: rgba(23, 162, 184, 0.1); color: var(--info);">
+							<i class="fas fa-hand-holding-heart"></i>
+						</div>
+					</div>
+					<div class="card-value">24</div>
+					<div class="card-footer positive">
+						<i class="fas fa-arrow-up"></i> 8 scheduled today
+					</div>
+				</div>
+			</div>
+
+			<!-- Charts -->
+			<div class="charts-grid">
+				<div class="chart-container">
+					<div class="chart-header">
+						<div class="chart-title">Blood Inventory Overview</div>
+						<select class="chart-filter">
+							<option>Last 7 Days</option>
+							<option selected>Last 30 Days</option>
+							<option>Last 90 Days</option>
+						</select>
+					</div>
+					<canvas id="inventoryChart"></canvas>
+				</div>
+
+				<div class="chart-container">
+					<div class="chart-header">
+						<div class="chart-title">Blood Type Distribution</div>
+					</div>
+					<canvas id="distributionChart"></canvas>
+
+					<div class="blood-types">
+						<!-- Add static or dynamic data -->
+						<div class="blood-type">
+							<div class="type">A+</div>
+							<div class="amount">312</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">B+</div>
+							<div class="amount">198</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">O+</div>
+							<div class="amount">402</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">AB+</div>
+							<div class="amount">74</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">A-</div>
+							<div class="amount">45</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">B-</div>
+							<div class="amount">32</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">O-</div>
+							<div class="amount">89</div>
+						</div>
+						<div class="blood-type">
+							<div class="type">AB-</div>
+							<div class="amount">16</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Activity Section -->
+			<div class="activity-container">
+				<div class="chart-header">
+					<div class="chart-title">Recent Activity</div>
+					<button class="btn">View All</button>
+				</div>
+				<ul class="activity-list">
+					<li class="activity-item">
+						<div class="activity-icon" style="background: rgba(40, 167, 69, 0.1); color: var(--success);">
+							<i class="fas fa-hand-holding-heart"></i>
+						</div>
+						<div class="activity-details">
+							<div class="activity-title">New donation received</div>
+							<div class="activity-description">From Michael Anderson - Type O+</div>
+						</div>
+						<div class="activity-time">2 hours ago</div>
+						<div class="activity-amount" style="color: var(--success);">+1 Unit</div>
+					</li>
+					<!-- Add more activity items as needed -->
+				</ul>
+			</div>
+		</main>
+	</div>
+
+	<!-- Custom JS -->
+	<script th:src="@{/js/home.js}"></script>
+</body>
+
+</html>

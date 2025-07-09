@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - BloodLife</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>BloodLife</h1>
+            </div>
+            <p>Blood Management System</p>
+        </div>
+
+        <!-- ✅ Start of Form -->
+        <form th:action="@{/login}" method="post" class="login-body">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginButton">
+                <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+            </button>
+
+            <!-- Divider -->
+            <div class="divider"><span>OR</span></div>
+
+            <!-- Google OAuth Login -->
+            <div class="social-login">
+                <a href="/oauth2/authorization/google" class="btn btn-google">
+                    <i class="fab fa-google"></i> Login with Google
+                </a>
+            </div>
+
+            <p class="signup-text">Don't have an account? <a th:href="@{/register}">Sign up</a></p>
+
+            <!-- Optional error display -->
+            <p th:if="${error}" th:text="${error}" style="color:red; text-align:center;"></p>
+
+        </form>
+        <!-- ✅ End of Form -->
+    </div>
+</body>
+</html>
