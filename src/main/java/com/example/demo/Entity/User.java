@@ -20,27 +20,27 @@ public class User {
     private String password;
     
     @Column(length = 12 , nullable = false , unique = true)
-    private String aadhar;
+    private String aadhaar;
 
 
 	public User() {}
 
-    public User(String username, String email, String password, String aadhar) {
+    public User(String username, String email, String password, String aadhaar) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.aadhar = aadhar;
+        this.aadhaar = aadhaar;
     }
 
     // Getters & Setters
     public Long getId() { return id; }
 
     public String getAadhar() {
-		return aadhar;
+		return aadhaar;
 	}
 
 	public void setAadhar(String aadhar) {
-		this.aadhar = aadhar;
+		this.aadhaar = aadhar;
 	}
 
 	public String getUsername() {

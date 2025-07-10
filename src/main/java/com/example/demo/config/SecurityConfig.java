@@ -1,12 +1,16 @@
 package com.example.demo.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -24,6 +28,7 @@ public class SecurityConfig {
         this.oAuth2LoginSuccessHandler = handler;
         this.dotenv = dotenv;
     }
+    
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,23 +42,22 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/register","/logout**", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/", "/register","/logout","/dologin","/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/dologin")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
+            	    .loginPage("/login")
+            	    .defaultSuccessUrl("/", true)
+            	    .permitAll()
+            	)
             .oauth2Login(oauth2 -> oauth2
                 .loginPage("/login")
                 .successHandler(oAuth2LoginSuccessHandler)
             )
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout").permitAll()
-            );
+            )
+            .securityContext(security -> security.requireExplicitSave(false));
         return http.build();
     }
-    
 }

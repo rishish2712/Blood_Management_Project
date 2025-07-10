@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Inventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/inventory.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard" id="dashboard">
+        <!-- Sidebar (optional reuse from home page) -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>BloodLife</h1>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+                <li><a href="/inventory" class="active"><i class="fas fa-tint"></i><span>Inventory</span></a></li>
+                <li><a href="/donors"><i class="fas fa-users"></i><span>Donors</span></a></li>
+                <li><a href="/recipients"><i class="fas fa-hospital-user"></i><span>Recipients</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="header-title">
+                    <h1>Blood Inventory</h1>
+                    <p>Current availability of all blood types</p>
+                </div>
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="inventory-section">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Blood Type</th>
+                            <th>Units Available</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="blood : ${inventory}">
+                            <td th:text="${blood.type}">A+</td>
+                            <td th:text="${blood.units}">10</td>
+                            <td>
+                                <span th:if="${blood.units > 10}" class="status status-ok">Sufficient</span>
+                                <span th:if="${blood.units <= 10 && blood.units > 3}" class="status status-low">Low</span>
+                                <span th:if="${blood.units <= 3}" class="status status-critical">Critical</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+</body>
+
+</html>
