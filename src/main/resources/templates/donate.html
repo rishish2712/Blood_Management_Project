@@ -12,8 +12,12 @@
 
 <body>
 	<div class="form-container">
+		<div th:unless="${eligible}">
+				    <p style="color: red; text-align: center; ">
+				       <b>You have already donated blood recently.</b>
+				    </p>
+				</div>
 		<h2>Donate Blood</h2>
-		<div th:if="${eligible}">
 		<form th:action="@{/donate}" method="post" th:object="${donor}">
 			<div class="form-group">
 				<label for="fullname">Full Name</label>
@@ -40,6 +44,11 @@
 				<label for="age">Age</label>
 				<input type="number" id="age" name="age" placeholder="Enter your age" min="18" required />
 			</div>
+			
+			<div class="form-group">
+							<label for="hospital">Hospital Name</label>
+							<input type="text" id="hospital" name="hospital" placeholder="Enter Hospital Name" required />
+						</div>
 
 			<div class="form-group">
 				<label for="unitsDonated">Units Donated</label>
@@ -57,11 +66,12 @@
 			</div>
 
 			<button class="submit-btn" type="submit">Submit Donation</button>
+			<a class="submit-btn" style="background-color: green; margin-left: 270px; text-decoration: none;" th:href="@{/}">Dashboard</a>
 		</form>
 		
 		<div th:unless="${eligible}">
-		    <p style="color:red;">
-		        You have already donated blood recently. You can donate again after <b th:text="${nextDate}"></b>.
+		    <p style="color:green;">
+		       You can donate again after <b th:text="${nextDate}"></b>.
 		    </p>
 		</div>
 	</div>

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,13 @@ public class DonateController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	public boolean iseligible(String aadhaar) {
+    	if(donorRepository.existsById(aadhaar)) {
+    	    return false;
+    	}
+    	return true;
+    }
+	
 	@PostMapping("/donate")
 	public String handleDonation(@RequestParam String fullname,
 			@RequestParam String aadhaar,
@@ -35,9 +44,10 @@ public class DonateController {
 			@RequestParam Integer unitsDonated,
 			@RequestParam String bloodGroup,
 			@RequestParam LocalDate donationDate,
+			@RequestParam String hospital,
 							Model model) {
 	
-		Donor newdonor = new Donor(aadhaar, fullname, age, bloodGroup, unitsDonated, donationDate);
+		Donor newdonor = new Donor(aadhaar, fullname, age, bloodGroup, unitsDonated, donationDate, hospital);
 		 donorRepository.save(newdonor);
 		 model.addAttribute("message", "Thank you for your donation!");
 		return "redirect:/";
@@ -55,11 +65,27 @@ public class DonateController {
 	            String aadhaar = optionalUser.get().getAadhar();
 	            model.addAttribute("aadhaar", aadhaar);
 	        }
-	        
-	    return "donate";
-	    }
+	        boolean eligible = iseligible(user.getAadhar());
+	        model.addAttribute("eligible", eligible);
 
+	        if (!eligible) {
+	            // Calculate next eligible date (last donation + 90 days)
+	            Donor list = donorRepository.findTopByAadhaarOrderByDonationDateDesc(user.getAadhar());
+	            LocalDate lastDonation = list.getDonationDate();
+	            LocalDate nextEligible = lastDonation.plusDays(90);
+	            model.addAttribute("nextDate", nextEligible.toString());
+	        }
+	       
+	    }
+	    
+	    if(user == null) {
+	    	return "login";
+	    }
+	    
+	    
 	    return "donate";
 	}
+	
+	
 
 }

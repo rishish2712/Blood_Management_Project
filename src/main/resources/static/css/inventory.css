@@ -2,17 +2,106 @@
         	padding: 20px;
         }
 
-        .inventory-table {
-        	width: 100%;
-        	border-collapse: collapse;
-        }
+	
 
-        .inventory-table th,
-        .inventory-table td {
-        	padding: 12px;
-        	border-bottom: 1px solid #ccc;
-        	text-align: center;
-        }
+		    .bag-container {
+		      display: flex;
+		      flex-wrap: wrap;
+		      justify-content: center;
+		      gap: 40px;
+		    }
+
+		    .blood-bag {
+		      position: relative;
+		      width: 120px;
+		      height: 200px;
+		      background: linear-gradient(to bottom, #fff 30%, #b30000 70%);
+		      border-radius: 25px;
+		      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+		      padding: 10px;
+		    }
+
+		    .blood-bag::after {
+		      content: '';
+		      position: absolute;
+		      bottom: -20px;
+		      left: 50%;
+		      transform: translateX(-50%);
+		      width: 10px;
+		      height: 40px;
+		      background-color: red;
+		      border-radius: 5px;
+		    }
+
+		    .blood-type {
+		      background: white;
+		      color: #b30000;
+		      font-weight: bold;
+		      font-size: 20px;
+		      padding: 6px 12px;
+		      border-radius: 10px;
+		      margin-top: 50px;
+		      display: inline-block;
+		    }
+			
+			.bag-container {
+			    display: flex;
+			    flex-wrap: wrap;
+			    gap: 30px;
+			    justify-content: center;
+			    padding: 30px;
+			}
+
+			.blood-bag {
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    width: 120px;
+			    background: #f7f7f7;
+			    border-radius: 10px;
+			    padding: 10px;
+			    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			}
+
+			.blood-image {
+			    width: 80px;
+			    height: auto;
+			    position: relative;
+			}
+
+			.blood-icon {
+			    position: relative;
+			    display: inline-block;
+			}
+
+			.blood-type-label {
+			    position: absolute;
+			    top: 40%;
+			    left: 50%;
+			    transform: translate(-50%, -50%);
+			    background: white;
+			    padding: 3px 6px;
+			    border-radius: 5px;
+			    font-weight: bold;
+			    font-size: 14px;
+			}
+
+			.units-text {
+			    margin-top: 8px;
+			    font-size: 14px;
+			    font-weight: 500;
+			    color: #333;
+			}
+
+		    .units {
+		      color: #222;
+		      margin-top: 20px;
+		      font-size: 18px;
+		    }
+
+		    h1 {
+		      color: #2c3e50;
+		    }
 
         .status {
         	padding: 4px 10px;

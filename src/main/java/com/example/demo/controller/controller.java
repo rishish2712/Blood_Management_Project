@@ -49,12 +49,6 @@ public class controller {
     	return "register";
     }
 	
-	@GetMapping("/inventory")
-	public String inventory() {
-		return "inventory";
-	}
-	
-	
 
 }
 

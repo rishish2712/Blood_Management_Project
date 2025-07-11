@@ -15,8 +15,15 @@ public class Donor {
     private Integer age;
     private Integer unitsDonated;
     private LocalDate donationDate;
+    private String hospitalName;
     
-    public String getAddhar() {
+    public String getHospitalName() {
+		return hospitalName;
+	}
+	public void setHospitalName(String hospitalName) {
+		this.hospitalName = hospitalName;
+	}
+	public String getAddhar() {
 		return aadhaar;
 	}
 	public void setAddhar(String addhar) {
@@ -55,7 +62,7 @@ public class Donor {
 	 public Donor() {
 	    }
 	public Donor(String aadhaar, String name, Integer age , String bloodGroup, Integer unitsDonated,
-			LocalDate donationDate) {
+			LocalDate donationDate, String hospitalName) {
 		super();
 		this.aadhaar = aadhaar;
 		this.fullname = name;
@@ -63,6 +70,7 @@ public class Donor {
 		this.age = age;
 		this.unitsDonated = unitsDonated;
 		this.donationDate = donationDate;
+		this.hospitalName = hospitalName;
 	}
 		
 
