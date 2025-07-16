@@ -14,5 +14,4 @@ public interface DonorRepository extends JpaRepository<Donor, String> {
 	
 	@Query("SELECT d.bloodGroup AS bloodGroup, SUM(d.unitsDonated) AS totalunitsDonated FROM Donor d GROUP BY d.bloodGroup")
 	List<BloodGroupUnitProjection> findTotalunitsDonatedBybloodGroup();
-
 }
